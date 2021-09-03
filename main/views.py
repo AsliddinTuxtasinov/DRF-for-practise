@@ -1,5 +1,5 @@
 from rest_framework import (
-    generics,permissions,exceptions,
+    generics,permissions,authentication,exceptions,
     mixins,response,status
 )
 from .models import Post, Vote
@@ -9,7 +9,8 @@ from .serializers import PostListSerializers, VoteSerializers
 
 # Post list View
 class PostListViews(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostListSerializers
 
@@ -19,6 +20,7 @@ class PostListViews(generics.ListCreateAPIView):
 
 # Post detail and delete view
 class PostRetrieveDestroyView(generics.RetrieveDestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Post.objects.all()
     serializer_class = PostListSerializers
@@ -33,6 +35,7 @@ class PostRetrieveDestroyView(generics.RetrieveDestroyAPIView):
 
 # Vote create and delete view
 class VoteCreateview(generics.CreateAPIView,mixins.DestroyModelMixin):
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = VoteSerializers
 
