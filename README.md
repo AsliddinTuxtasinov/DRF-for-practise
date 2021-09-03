@@ -1,1 +1,1 @@
-# DRF-for-portfolio
+# DRF-for-practise
